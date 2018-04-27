@@ -1,5 +1,7 @@
 import config
 from selenium import webdriver
+from selenium.common.exceptions import ElementNotVisibleException
+from selenium.common.exceptions import WebDriverException
 import time
 #
 from selenium import webdriver
@@ -36,26 +38,32 @@ def openHashtag(hashtag):
 
 
 def likeAll():
-    css = "button.ProfileTweet-actionButton.js-actionButton.js-actionFavorite"
-    manyElements = driver.find_elements_by_css_selector(css)
-    print("LIKE! before \n")
-    for element in manyElements:
-        element.click()
-        print("LIKE! \n")
+    # css = "button.ProfileTweet-actionButton.js-actionButton.js-actionFavorite"
+    css = "div.ProfileTweet-action.ProfileTweet-action--favorite.js-toggleState"
+    #css = "div.ProfileTweet-action.ProfileTweet-action--favorite.js-toggleState.button.ProfileTweet-actionButton.js-actionButton.js-actionFavorite"
 
-    print("LIKE! after \n")
+    manyElements = driver.find_elements_by_css_selector(css)
+    print(manyElements)
+    for element in manyElements:
+        print("LIKE")
+        try:
+            element.click()
+        except ElementNotVisibleException, WebDriverException:
+            return None
+
 
 if __name__ == "__main__":
     username = config.DATACOUP_USERNAME
     password = config.DATACOUP_PASSWORD
     twitt = "Test tweet"
     login_twitter(username, password)
-    openHashtag("#dascoin")
+    openHashtag("#ShadowOfTheTombRaider")
     try:
         element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "AdaptiveFiltersBar-item")))
     finally:
         while True:
             print("5secound -> scrool -> like")
+            time.sleep(2)
             likeAll()
             time.sleep(10)
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
