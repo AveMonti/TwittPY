@@ -38,10 +38,8 @@ def openHashtag(hashtag):
 
 
 def likeAll():
-    # css = "button.ProfileTweet-actionButton.js-actionButton.js-actionFavorite"
-    css = "div.ProfileTweet-action.ProfileTweet-action--favorite.js-toggleState"
-    #css = "div.ProfileTweet-action.ProfileTweet-action--favorite.js-toggleState.button.ProfileTweet-actionButton.js-actionButton.js-actionFavorite"
-
+    css = "button.ProfileTweet-actionButton.js-actionButton.js-actionFavorite"
+    #css = "div.ProfileTweet-action.ProfileTweet-action--favorite.js-toggleState"
     manyElements = driver.find_elements_by_css_selector(css)
     print(manyElements)
     for element in manyElements:
@@ -57,7 +55,7 @@ if __name__ == "__main__":
     password = config.DATACOUP_PASSWORD
     twitt = "Test tweet"
     login_twitter(username, password)
-    openHashtag("#ShadowOfTheTombRaider")
+    openHashtag("#InfinityWar")
     try:
         element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "AdaptiveFiltersBar-item")))
     finally:
