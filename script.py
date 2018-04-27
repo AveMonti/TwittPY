@@ -36,14 +36,13 @@ def openHashtag(hashtag):
 
 
 def likeAll():
-    manyElements = driver.find_elements_by_class_name("HeartAnimation")
+    css = "button.ProfileTweet-actionButton.js-actionButton.js-actionFavorite"
+    manyElements = driver.find_elements_by_css_selector(css)
     print("LIKE! before \n")
     for element in manyElements:
-        print("LIKE! inside \n")
-        try:
-            iserror = element.click()
-        finally:
-            element.click()
+        element.click()
+        print("LIKE! \n")
+
     print("LIKE! after \n")
 
 if __name__ == "__main__":
@@ -51,18 +50,13 @@ if __name__ == "__main__":
     password = config.DATACOUP_PASSWORD
     twitt = "Test tweet"
     login_twitter(username, password)
-    # openHashtag("#ehelons")
-    # try:
-    #     element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "AdaptiveFiltersBar-item")))
-    # finally:
-    #     likeAll()
-    likeAll()
-    #     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-    #     # likeAll()
-    #
-    # while True:
-    #     print("5secound -> scrool -> like")
-    #     time.sleep(5)   # Delay for 1 minute (60 seconds).
-    #     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-    #     likeAll()
-    #     time.sleep(20)
+    openHashtag("#dascoin")
+    try:
+        element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "AdaptiveFiltersBar-item")))
+    finally:
+        while True:
+            print("5secound -> scrool -> like")
+            likeAll()
+            time.sleep(10)
+            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            time.sleep(5)
