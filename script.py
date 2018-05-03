@@ -9,6 +9,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 #
+#Value
+dictionaryValue = {}
 
 driver = webdriver.Chrome("/Users/mateuszchojnacki/Applications/chromedriver")
 def login_twitter(username, password):
@@ -38,16 +40,26 @@ def openHashtag(hashtag):
 
 
 def likeAll():
-    css = "button.ProfileTweet-actionButton.js-actionButton.js-actionFavorite"
-    #css = "div.ProfileTweet-action.ProfileTweet-action--favorite.js-toggleState"
-    manyElements = driver.find_elements_by_css_selector(css)
-    print(manyElements)
-    for element in manyElements:
-        print("LIKE")
-        try:
-            element.click()
-        except ElementNotVisibleException, WebDriverException:
-            return None
+    while True:
+        css = "button.ProfileTweet-actionButton.js-actionButton.js-actionFavorite"
+        manyElements = driver.find_elements_by_css_selector(css)
+        print(manyElements)
+        print("5secound -> scrool -> like")
+        time.sleep(2)
+        for element in manyElements:
+            try:
+                print("LIKE")
+                element.click()
+            except ElementNotVisibleException:
+                print("ElementNotVisibleException")
+            except WebDriverException:
+                print("WebDriverException")
+
+        time.sleep(5)
+        manyElements = None
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        time.sleep(5)
+
 
 
 if __name__ == "__main__":
@@ -55,14 +67,11 @@ if __name__ == "__main__":
     password = config.DATACOUP_PASSWORD
     twitt = "Test tweet"
     login_twitter(username, password)
-    openHashtag("#InfinityWar")
+    openHashtag("#majowefolllowspree")
     try:
         element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "AdaptiveFiltersBar-item")))
     finally:
-        while True:
-            print("5secound -> scrool -> like")
-            time.sleep(2)
-            likeAll()
-            time.sleep(10)
-            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            time.sleep(5)
+        theLatestHashtag = driver.find_elements_by_css_selector("li.AdaptiveFiltersBar-item.u-borderUserColor")
+        theLatestHashtag[1].click()
+        time.sleep(4)
+        likeAll()

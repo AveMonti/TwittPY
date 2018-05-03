@@ -1,5 +1,5 @@
 ### TwittPY
-
+Beast Version but i had been banned after 20 second xD
 ## Setup:
 * Insert src into yours webdriver
 ```
